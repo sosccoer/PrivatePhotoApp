@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GalleryViewController" customModule="PhotoApp" customModuleProvider="target">
             <connections>
+                <outlet property="imageView" destination="yN6-OP-0pe" id="az4-T6-dMq"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -38,12 +39,19 @@
                         <action selector="plusButton:" destination="-1" eventType="touchUpInside" id="hdr-mU-PHG"/>
                     </connections>
                 </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yN6-OP-0pe">
+                    <rect key="frame" x="16" y="109.33333333333331" width="361" height="692.66666666666674"/>
+                </imageView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="yN6-OP-0pe" secondAttribute="trailing" constant="16" id="Bav-Nh-lY4"/>
+                <constraint firstItem="yN6-OP-0pe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="WRY-99-DD5"/>
                 <constraint firstItem="DJI-fX-Kq1" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="bT2-wZ-1ce"/>
+                <constraint firstItem="yN6-OP-0pe" firstAttribute="top" secondItem="s6i-V8-hep" secondAttribute="bottom" constant="16" id="jIW-o9-J3d"/>
                 <constraint firstItem="s6i-V8-hep" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="owZ-Md-Odk"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="yN6-OP-0pe" secondAttribute="bottom" constant="16" id="rq1-pT-RIL"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="DJI-fX-Kq1" secondAttribute="trailing" constant="16" id="sk2-b9-yjE"/>
                 <constraint firstItem="s6i-V8-hep" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="uCR-ke-8se"/>
             </constraints>
