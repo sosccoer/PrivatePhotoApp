@@ -23,12 +23,17 @@ class LoginViewController: UIViewController {
         passwordLabel.text = nowPassword
         
         if sucesfullPassword == nowPassword {
-            let galleryController = GalleryViewController()
-            galleryController.modalPresentationStyle = .fullScreen
-            present(galleryController, animated: true)
+            presentGalleryController()
             nowPassword = ""
             checkPassword()
         }
+    }
+    
+    func presentGalleryController(){
+        let galleryController = GalleryViewController()
+        galleryController.modalPresentationStyle = .fullScreen
+        present(galleryController, animated: true)
+        
     }
 
 
@@ -43,12 +48,19 @@ class LoginViewController: UIViewController {
     
     @IBAction func deleteButton(_ sender: Any) {
         
-        nowPassword.removeLast()
+        if nowPassword > "" {
+            nowPassword.removeLast()
+        }
+        
         checkPassword()
         
     }
     
     
+    @IBAction func faceIDButton(_ sender: Any) {
+        presentGalleryController()
+        nowPassword = ""
+    }
     
   
     

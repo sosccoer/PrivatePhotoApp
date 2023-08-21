@@ -19,6 +19,7 @@ class SplashViewController: UIViewController {
         
        playAnimation()
         
+        
     }
     
     private func playAnimation(){

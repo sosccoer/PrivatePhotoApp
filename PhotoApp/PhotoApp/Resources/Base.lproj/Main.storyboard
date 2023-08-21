@@ -19,15 +19,17 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tvc-ch-NWB" customClass="LottieAnimationView" customModule="Lottie">
                                 <rect key="frame" x="16" y="75" width="361" height="727"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="361" id="daF-ZQ-rw1"/>
+                                    <constraint firstAttribute="height" constant="727" id="elj-8r-49q"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Tvc-ch-NWB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="6ak-jr-wq9"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Tvc-ch-NWB" secondAttribute="trailing" constant="16" id="HnL-v8-76G"/>
-                            <constraint firstItem="Tvc-ch-NWB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Iz8-j7-8it"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Tvc-ch-NWB" secondAttribute="bottom" constant="16" id="Mx4-Fs-Tif"/>
+                            <constraint firstItem="Tvc-ch-NWB" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="JzL-sV-yda"/>
+                            <constraint firstItem="Tvc-ch-NWB" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Se5-cG-ycl"/>
                         </constraints>
                     </view>
                     <connections>
@@ -36,7 +38,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="58" y="-2"/>
+            <point key="canvasLocation" x="57.251908396946561" y="-2.1126760563380285"/>
         </scene>
     </scenes>
     <resources>
