@@ -138,6 +138,7 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         PhotoViewController.nowPhoto = GalleryViewController.photos[indexPath.row]
          let destination = PhotoViewController()
+        destination.modalPresentationStyle = .fullScreen
         present(destination, animated: true)
     }
     

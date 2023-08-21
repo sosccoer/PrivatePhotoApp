@@ -22,6 +22,11 @@ class PhotoViewController: UIViewController {
         
     }
     
+    @IBAction func backButton(_ sender: Any) {
+        dismiss(animated: true)
+    }
+    
+    
     func setupPhoto () {
         imageView.image = photo
     }

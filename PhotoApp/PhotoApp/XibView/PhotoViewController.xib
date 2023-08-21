@@ -20,15 +20,24 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pDY-NP-hyg">
-                    <rect key="frame" x="16" y="126" width="361" height="710"/>
+                    <rect key="frame" x="16" y="110" width="361" height="726"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7au-9c-jfL">
-                    <rect key="frame" x="173.66666666666666" y="75" width="46" height="35"/>
+                    <rect key="frame" x="331" y="59" width="46" height="35"/>
                     <color key="tintColor" systemColor="opaqueSeparatorColor"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="rotate.right" catalog="system"/>
                     <connections>
                         <action selector="rotatePhoto:" destination="-1" eventType="touchUpInside" id="ZyI-sh-sio"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b36-vI-UJF">
+                    <rect key="frame" x="16" y="59" width="51" height="35"/>
+                    <color key="tintColor" systemColor="opaqueSeparatorColor"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="arrowshape.turn.up.backward" catalog="system"/>
+                    <connections>
+                        <action selector="backButton:" destination="-1" eventType="touchUpInside" id="z7b-42-tYW"/>
                     </connections>
                 </button>
             </subviews>
@@ -37,15 +46,19 @@
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="pDY-NP-hyg" secondAttribute="bottom" constant="16" id="7LF-Yz-hJZ"/>
                 <constraint firstAttribute="trailing" secondItem="pDY-NP-hyg" secondAttribute="trailing" constant="16" id="Ciz-zn-pjC"/>
-                <constraint firstItem="7au-9c-jfL" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Xd9-Ut-dFE"/>
+                <constraint firstItem="pDY-NP-hyg" firstAttribute="top" secondItem="b36-vI-UJF" secondAttribute="bottom" constant="16" id="JxI-T9-BCj"/>
+                <constraint firstItem="b36-vI-UJF" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="LtL-SB-Ro2"/>
                 <constraint firstItem="pDY-NP-hyg" firstAttribute="top" secondItem="7au-9c-jfL" secondAttribute="bottom" constant="16" id="bES-S4-skz"/>
                 <constraint firstItem="pDY-NP-hyg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="mG5-FD-Vaj"/>
-                <constraint firstItem="7au-9c-jfL" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="16" id="wPC-Du-lZz"/>
+                <constraint firstItem="b36-vI-UJF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="qbZ-1i-3Zf"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="7au-9c-jfL" secondAttribute="trailing" constant="16" id="uYZ-ia-Kic"/>
+                <constraint firstItem="7au-9c-jfL" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="wPC-Du-lZz"/>
             </constraints>
             <point key="canvasLocation" x="136.64122137404578" y="20.422535211267608"/>
         </view>
     </objects>
     <resources>
+        <image name="arrowshape.turn.up.backward" catalog="system" width="128" height="104"/>
         <image name="rotate.right" catalog="system" width="115" height="128"/>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
