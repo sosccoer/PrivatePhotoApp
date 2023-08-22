@@ -11,10 +11,10 @@ class PhotoViewController: UIViewController {
     
     @IBOutlet  var imageView: UIImageView!
     
-    var photo = PhotoViewController.nowPhoto
+    var photo = UIImage()
     
-    static var nowPhoto: UIImage?
-    
+    var imageOrientation: UIImage.Orientation = .up
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,27 +33,30 @@ class PhotoViewController: UIViewController {
     
     @IBAction func rotatePhoto(_ sender: Any) {
         
-        imageView.image = rotateImage(image: photo!)
+        imageView.image = rotateImage(image: photo )
     }
     
     func rotateImage(image:UIImage) -> UIImage
-    {
-        var rotatedImage = UIImage()
-        switch image.imageOrientation
         {
-            case .right:
-                rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .up)
-            case .down:
-                rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .right)
-            case .left:
-                rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .down)
-            default:
-                rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .left)
+            var rotatedImage = UIImage()
+            switch imageOrientation
+            {
+                case .right:
+                    rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .down)
+                imageOrientation = .down
+                case .down:
+                    rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .left)
+                imageOrientation = .left
+                case .left:
+                    rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .up)
+                imageOrientation = .up
+                default:
+                    rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .right)
+                imageOrientation = .right
+            }
+            
+            return rotatedImage
+            
         }
-        
-        
-        
-        return rotatedImage
-    }
-        
+
 }

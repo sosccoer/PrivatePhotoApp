@@ -15,7 +15,7 @@ class GalleryViewController: UIViewController{
     let numberOfRows:CGFloat = 3
     let cellSpacing:CGFloat = 5
     
-   static var photos: [UIImage] = []
+    var photos: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +99,7 @@ extension GalleryViewController: UIImagePickerControllerDelegate,UINavigationCon
             
             return
         }
-        GalleryViewController.photos.append(image)
+        photos.append(image)
         collectionView.reloadData()
         
         picker.dismiss(animated: true)
@@ -115,7 +115,7 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        GalleryViewController.photos.count
+        photos.count
     }
     
     
@@ -128,7 +128,7 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCollectionViewCell else{return UICollectionViewCell()}
         
-        cell.photoImage.image = GalleryViewController.photos[index]
+        cell.photoImage.image = photos[index]
         
         return cell
 
@@ -136,8 +136,9 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        PhotoViewController.nowPhoto = GalleryViewController.photos[indexPath.row]
+        let index = indexPath.row
          let destination = PhotoViewController()
+        destination.photo = photos[index]
         destination.modalPresentationStyle = .fullScreen
         present(destination, animated: true)
     }

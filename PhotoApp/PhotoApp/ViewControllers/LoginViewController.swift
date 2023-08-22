@@ -11,7 +11,7 @@ class LoginViewController: UIViewController {
 
     @IBOutlet weak var passwordLabel: UILabel!
     
-    let sucesfullPassword = "1111"
+    let sucesfullPassword = "195713"
     var nowPassword = ""
     
     override func viewDidLoad() {
