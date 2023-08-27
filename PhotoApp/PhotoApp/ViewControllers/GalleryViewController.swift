@@ -82,23 +82,39 @@ class GalleryViewController: UIViewController{
         
     }
     
-    func saveImage(_ image: UIImage) {
+    func saveImage(_ images: [UIImage]) {
         
-        guard let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first, let imageData = image.pngData() else {return}
+        for photo in images {
+            
+            guard let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first, let imageData = photo.pngData() else {return}
+            
+            let fileName = UUID().uuidString
+            
+            let fileURL = URL(fileURLWithPath: fileName,relativeTo: saveDirectory).appendingPathExtension("png")
+            
+            try? imageData.write(to: fileURL)
+            print("file saved \(fileURL.absoluteURL)")
+            
+            loadImage(fromURL: fileURL.absoluteURL)
+            
+        }
         
-        let fileName = UUID().uuidString
+        collectionView.reloadData()
         
-        let fileURL = URL(fileURLWithPath: fileName,relativeTo: saveDirectory).appendingPathExtension("png")
-        
-        try? imageData.write(to: fileURL)
-        print("file saved \(fileURL.absoluteURL)")
         
         
     }
     
     func loadImage(fromURL fileURL: URL ) {
         
+        
+        
         guard let savedData = try? Data(contentsOf: fileURL),  let image = UIImage(data: savedData) else {return}
+        
+        photos.append(image)
+        
+        try? FileManager.default.removeItem(at: fileURL)
+        
         
     }
     
@@ -120,7 +136,7 @@ extension GalleryViewController: UIImagePickerControllerDelegate,UINavigationCon
             return
         }
         photos.append(image)
-        saveImage(image)
+        saveImage(photos)
         collectionView.reloadData()
         
         picker.dismiss(animated: true)
