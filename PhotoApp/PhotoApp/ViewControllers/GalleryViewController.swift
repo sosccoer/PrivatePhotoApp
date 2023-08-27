@@ -21,7 +21,7 @@ class GalleryViewController: UIViewController{
         super.viewDidLoad()
         
         setupCollectionView()
-       
+        
         
     }
     
@@ -30,7 +30,7 @@ class GalleryViewController: UIViewController{
         collectionView.delegate = self
         collectionView.dataSource = self
         registerCell()
-
+        
     }
     
     private func registerCell(){
@@ -82,7 +82,27 @@ class GalleryViewController: UIViewController{
         
     }
     
-   
+    func saveImage(_ image: UIImage) {
+        
+        guard let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first, let imageData = image.pngData() else {return}
+        
+        let fileName = UUID().uuidString
+        
+        let fileURL = URL(fileURLWithPath: fileName,relativeTo: saveDirectory).appendingPathExtension("png")
+        
+        try? imageData.write(to: fileURL)
+        print("file saved \(fileURL.absoluteURL)")
+        
+        
+    }
+    
+    func loadImage(fromURL fileURL: URL ) {
+        
+        guard let savedData = try? Data(contentsOf: fileURL),  let image = UIImage(data: savedData) else {return}
+        
+    }
+    
+    
     
     
 }
@@ -100,6 +120,7 @@ extension GalleryViewController: UIImagePickerControllerDelegate,UINavigationCon
             return
         }
         photos.append(image)
+        saveImage(image)
         collectionView.reloadData()
         
         picker.dismiss(animated: true)
@@ -122,7 +143,7 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-       
+        
         
         let index = indexPath.row
         
@@ -131,13 +152,13 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.photoImage.image = photos[index]
         
         return cell
-
+        
         
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index = indexPath.row
-         let destination = PhotoViewController()
+        let destination = PhotoViewController()
         destination.photo = photos[index]
         destination.modalPresentationStyle = .fullScreen
         present(destination, animated: true)
@@ -152,7 +173,7 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-       return cellSpacing
+        return cellSpacing
     }
     
     
@@ -164,6 +185,6 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     
     
- 
+    
     
 }
