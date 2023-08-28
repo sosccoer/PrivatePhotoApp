@@ -21,7 +21,7 @@ class GalleryViewController: UIViewController{
         super.viewDidLoad()
         
         setupCollectionView()
-        
+        loadImage()
         
     }
     
@@ -87,39 +87,46 @@ class GalleryViewController: UIViewController{
         for photo in images {
             
             guard let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first, let imageData = photo.pngData() else {return}
-            
+        
             let fileName = UUID().uuidString
             
             let fileURL = URL(fileURLWithPath: fileName,relativeTo: saveDirectory).appendingPathExtension("png")
             
             try? imageData.write(to: fileURL)
+            
+            URLManager.addImageName(fileName)
+            
+            loadImage(from: fileURL.absoluteURL)
+            
             print("file saved \(fileURL.absoluteURL)")
-            
-            loadImage(fromURL: fileURL.absoluteURL)
-            
+             
         }
         
         collectionView.reloadData()
-        
-        
-        
+         
     }
     
-    func loadImage(fromURL fileURL: URL ) {
-        
-        
-        
-        guard let savedData = try? Data(contentsOf: fileURL),  let image = UIImage(data: savedData) else {return}
+    func loadImage(from fileURL: URL) {
+        guard let savedData = try? Data(contentsOf: fileURL),
+            let image = UIImage(data: savedData) else { return }
         
         photos.append(image)
-        
-        try? FileManager.default.removeItem(at: fileURL)
-        
-        
+        collectionView.reloadData()
     }
     
-    
-    
+    func loadImage() {
+        
+        
+        guard let saveDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first, let fileName = URLManager.getImagesNames().first else {return}
+        
+        let fileURL = URL(fileURLWithPath: fileName, relativeTo: saveDirectory).appendingPathExtension("png")
+        
+        guard let saveData = try? Data(contentsOf: fileURL),let image = UIImage(data: saveData) else {return}
+        
+        photos.append(image)
+        collectionView.reloadData()
+        
+    }
     
 }
 
@@ -159,8 +166,6 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        
-        
         let index = indexPath.row
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCollectionViewCell else{return UICollectionViewCell()}
@@ -168,7 +173,6 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.photoImage.image = photos[index]
         
         return cell
-        
         
     }
     
@@ -191,16 +195,5 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return cellSpacing
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 }
