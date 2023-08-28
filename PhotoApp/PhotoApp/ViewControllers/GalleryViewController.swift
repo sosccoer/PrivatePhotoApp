@@ -83,25 +83,29 @@ class GalleryViewController: UIViewController{
         
     }
     
-    func saveImage(_ images: UIImage) {
+    func saveImage( images: [UIImage]) {
         
         
             
             //
             // нужно сюда for
             //
+        
+        for photo in images {
             
-             let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-                 
+            let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            
             for file in saveDirectory {
                 
-                let imageData = images.pngData()
+                let imageData = photo.pngData()
                 
                 let fileName = UUID().uuidString
                 
                 let fileURL = URL(fileURLWithPath: fileName,relativeTo: file).appendingPathExtension("png")
                 
                 try? imageData!.write(to: fileURL)
+                
+                photos.append(photo)
                 
                 URLManager.addImageName(fileName)
                 
@@ -111,24 +115,24 @@ class GalleryViewController: UIViewController{
                 
             }
             
+        }
+            
         collectionView.reloadData()
         
     }
     
     func loadImage(from fileURL: URL) {
-        guard let savedData = try? Data(contentsOf: fileURL),
-              let image = UIImage(data: savedData) else { return }
         
-      photos.append(image)
+        
+        guard let savedData = try? Data(contentsOf: fileURL),
+              let imageLoad = UIImage(data: savedData) else { return }
+        
+//      photos.append(imageLoad)
         collectionView.reloadData()
         
     }
     
     func loadImage() {
-        
-        
-        
-        // сюда нужно вставить for
         
          let saveDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         
@@ -142,7 +146,7 @@ class GalleryViewController: UIViewController{
                 
                 guard let saveData = try? Data(contentsOf: fileURL), let image = UIImage(data: saveData) else {return}
                 
-                photos.append(image)
+//                photos.append(image)
                 collectionView.reloadData()
                 
             }
@@ -169,8 +173,9 @@ extension GalleryViewController: UIImagePickerControllerDelegate,UINavigationCon
             
             return
         }
-//        photos.append(image)
-        saveImage(image)
+        photos.append(image)
+        saveImage(images: photos )
+        collectionView.reloadData()
         
         picker.dismiss(animated: true)
     }
