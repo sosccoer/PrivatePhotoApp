@@ -20,8 +20,9 @@ class GalleryViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupCollectionView()
         loadImage()
+        setupCollectionView()
+        
         
     }
     
@@ -82,30 +83,34 @@ class GalleryViewController: UIViewController{
         
     }
     
-    func saveImage(_ images: [UIImage]) {
+    func saveImage(_ images: UIImage) {
         
-        for photo in images {
+        
             
             //
             // нужно сюда for
             //
             
-            guard let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first, let imageData = photo.pngData() else {return}
+             let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                 
+            for file in saveDirectory {
+                
+                let imageData = images.pngData()
+                
+                let fileName = UUID().uuidString
+                
+                let fileURL = URL(fileURLWithPath: fileName,relativeTo: file).appendingPathExtension("png")
+                
+                try? imageData!.write(to: fileURL)
+                
+                URLManager.addImageName(fileName)
+                
+                loadImage(from: fileURL.absoluteURL)
+                
+                print("file saved \(fileURL.absoluteURL)")
+                
+            }
             
-            let fileName = UUID().uuidString
-            
-            let fileURL = URL(fileURLWithPath: fileName,relativeTo: saveDirectory).appendingPathExtension("png")
-            
-            try? imageData.write(to: fileURL)
-            
-            URLManager.addImageName(fileName)
-            
-            loadImage(from: fileURL.absoluteURL)
-            
-            print("file saved \(fileURL.absoluteURL)")
-            
-        }
-        
         collectionView.reloadData()
         
     }
@@ -114,25 +119,40 @@ class GalleryViewController: UIViewController{
         guard let savedData = try? Data(contentsOf: fileURL),
               let image = UIImage(data: savedData) else { return }
         
-        photos.append(image)
+      photos.append(image)
         collectionView.reloadData()
+        
     }
     
     func loadImage() {
         
+        
+        
         // сюда нужно вставить for
         
+         let saveDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         
-        
-        guard let saveDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first, let fileName = URLManager.getImagesNames().first else {return}
-        
-        let fileURL = URL(fileURLWithPath: fileName, relativeTo: saveDirectory).appendingPathExtension("png")
-        
-        guard let saveData = try? Data(contentsOf: fileURL),let image = UIImage(data: saveData) else {return}
-        
-        photos.append(image)
-        collectionView.reloadData()
-        
+        for file in saveDirectory {
+            
+            let fileName = URLManager.getImagesNames()
+            
+            for files in fileName {
+                
+                let fileURL = URL(fileURLWithPath: files, relativeTo: file).appendingPathExtension("png")
+                
+                guard let saveData = try? Data(contentsOf: fileURL), let image = UIImage(data: saveData) else {return}
+                
+                photos.append(image)
+                collectionView.reloadData()
+                
+            }
+        }
+                
+    }
+    
+    func clearImages() {
+        URLManager.deleteAll()
+        collectionView.dataSource = nil
     }
     
 }
@@ -149,8 +169,8 @@ extension GalleryViewController: UIImagePickerControllerDelegate,UINavigationCon
             
             return
         }
-        photos.append(image)
-        saveImage(photos)
+//        photos.append(image)
+        saveImage(image)
         
         picker.dismiss(animated: true)
     }
