@@ -124,7 +124,7 @@ class GalleryViewController: UIViewController{
         
         guard let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         
-            
+        
         let fileNames = URLManager.getImagesNames()
         
         for file in fileNames {
@@ -143,7 +143,7 @@ class GalleryViewController: UIViewController{
         URLManager.deleteAll()
         collectionView.dataSource = nil
     }
-        
+    
 }
 
 extension GalleryViewController: UIDocumentPickerDelegate{
@@ -153,24 +153,24 @@ extension GalleryViewController: UIDocumentPickerDelegate{
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         
         let url = urls.first
-            if let data = try? Data(contentsOf: url!)
-            {
-                let image = UIImage(data: data)
-                saveImage(image!)
-            }
+        if let data = try? Data(contentsOf: url!)
+        {
+            let image = UIImage(data: data)
+            saveImage(image!)
+        }
         
         controller.dismiss(animated: true)
         
         return
-        }
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    
+}
 
-         func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-            controller.dismiss(animated: true, completion: nil)
-        }
-    
-        
-     }
-    
 
 
 extension GalleryViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate{
