@@ -146,6 +146,9 @@ class GalleryViewController: UIViewController{
     
 }
 
+
+//extension GalleryViewController:
+
 extension GalleryViewController: UIDocumentPickerDelegate{
     
     
