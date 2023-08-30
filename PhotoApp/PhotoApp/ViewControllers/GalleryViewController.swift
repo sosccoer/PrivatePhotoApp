@@ -22,8 +22,6 @@ class GalleryViewController: UIViewController{
         
         loadImage()
         setupCollectionView()
-        
-        
     }
     
     private func setupCollectionView(){
@@ -73,85 +71,72 @@ class GalleryViewController: UIViewController{
             self?.present(pickerController, animated: true)
         }
         
+        let documentAction = UIAlertAction(title: "Documents", style: .default) { [weak self] _ in
+            let pickerController = UIImagePickerController()
+            pickerController.delegate = self
+            pickerController.allowsEditing = false
+            pickerController.allowsEditing = false
+            pickerController.mediaTypes = ["public image"]
+            pickerController.sourceType = .photoLibrary
+            self?.present(pickerController,animated: true)
+            
+        }
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         alert.addAction(cameraAction)
         alert.addAction(galleryAction)
+        alert.addAction(documentAction)
         alert.addAction(cancelAction)
         
         self.present(alert, animated: true)
         
     }
     
-    func saveImage( images: [UIImage]) {
+    func saveImage(_ image: UIImage) {
+        guard let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         
+        let imageData = image.jpegData(compressionQuality: 100)
         
-            
-            //
-            // нужно сюда for
-            //
+        let fileName = UUID().uuidString
         
-        for photo in images {
-            
-            let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            
-            for file in saveDirectory {
-                
-                let imageData = photo.pngData()
-                
-                let fileName = UUID().uuidString
-                
-                let fileURL = URL(fileURLWithPath: fileName,relativeTo: file).appendingPathExtension("png")
-                
-                try? imageData!.write(to: fileURL)
-                
-                photos.append(photo)
-                
-                URLManager.addImageName(fileName)
-                
-                loadImage(from: fileURL.absoluteURL)
-                
-                print("file saved \(fileURL.absoluteURL)")
-                
-            }
-            
-        }
-            
-        collectionView.reloadData()
+        let fileURL = URL(fileURLWithPath: fileName, relativeTo: saveDirectory).appendingPathExtension("jpg")
         
+        try? imageData!.write(to: fileURL)
+        
+        URLManager.addImageName(fileName)
+        
+        loadImage(from: fileURL.absoluteURL)
+        
+        print("file saved \(fileURL.absoluteURL)")
     }
     
     func loadImage(from fileURL: URL) {
         
-        
         guard let savedData = try? Data(contentsOf: fileURL),
               let imageLoad = UIImage(data: savedData) else { return }
         
-//      photos.append(imageLoad)
+        photos.append(imageLoad)
         collectionView.reloadData()
-        
     }
     
     func loadImage() {
         
-         let saveDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        guard let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         
-        for file in saveDirectory {
             
-            let fileName = URLManager.getImagesNames()
+        let fileNames = URLManager.getImagesNames()
+        
+        for file in fileNames {
             
-            for files in fileName {
-                
-                let fileURL = URL(fileURLWithPath: files, relativeTo: file).appendingPathExtension("png")
-                
-                guard let saveData = try? Data(contentsOf: fileURL), let image = UIImage(data: saveData) else {return}
-                
-//                photos.append(image)
-                collectionView.reloadData()
-                
-            }
+            let fileURL = URL(fileURLWithPath: file, relativeTo: saveDirectory).appendingPathExtension("jpg")
+            
+            guard let saveData = try? Data(contentsOf: fileURL.absoluteURL), let image = UIImage(data: saveData) else { continue }
+            
+            photos.append(image)
+            collectionView.reloadData()
         }
-                
+        
     }
     
     func clearImages() {
@@ -173,9 +158,8 @@ extension GalleryViewController: UIImagePickerControllerDelegate,UINavigationCon
             
             return
         }
-        photos.append(image)
-        saveImage(images: photos )
-        collectionView.reloadData()
+        
+        saveImage(image)
         
         picker.dismiss(animated: true)
     }
