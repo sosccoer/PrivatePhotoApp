@@ -7,6 +7,8 @@
 
 import UIKit
 import Foundation
+import MobileCoreServices
+import UniformTypeIdentifiers
 
 class GalleryViewController: UIViewController{
     
@@ -72,13 +74,13 @@ class GalleryViewController: UIViewController{
         }
         
         let documentAction = UIAlertAction(title: "Documents", style: .default) { [weak self] _ in
-            let pickerController = UIImagePickerController()
-            pickerController.delegate = self
-            pickerController.allowsEditing = false
-            pickerController.allowsEditing = false
-            pickerController.mediaTypes = ["public image"]
-            pickerController.sourceType = .photoLibrary
-            self?.present(pickerController,animated: true)
+            let types: [String] = [kUTTypePDF as String]
+            let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
+            documentPicker.delegate = self 
+            documentPicker.modalPresentationStyle = .formSheet
+            documentPicker.allowsMultipleSelection = false
+            documentPicker.shouldShowFileExtensions = true
+            self?.present(documentPicker, animated: true)
             
         }
         
@@ -143,8 +145,31 @@ class GalleryViewController: UIViewController{
         URLManager.deleteAll()
         collectionView.dataSource = nil
     }
-    
+        
 }
+
+extension GalleryViewController: UIDocumentPickerDelegate{
+    
+    
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let image = urls.first as? UIImage else {return}
+        
+        
+        saveImage(image)
+        controller.dismiss(animated: true)
+        
+        return
+        }
+
+         func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+            controller.dismiss(animated: true, completion: nil)
+        }
+    
+        
+     }
+    
+
 
 extension GalleryViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
