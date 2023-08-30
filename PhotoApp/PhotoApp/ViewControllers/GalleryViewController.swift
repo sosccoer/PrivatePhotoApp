@@ -74,12 +74,10 @@ class GalleryViewController: UIViewController{
         }
         
         let documentAction = UIAlertAction(title: "Documents", style: .default) { [weak self] _ in
-            let types: [String] = [kUTTypePDF as String]
-            let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
-            documentPicker.delegate = self 
+            let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.item], asCopy: false)
+            documentPicker.delegate = self
             documentPicker.modalPresentationStyle = .formSheet
             documentPicker.allowsMultipleSelection = false
-            documentPicker.shouldShowFileExtensions = true
             self?.present(documentPicker, animated: true)
             
         }
@@ -153,10 +151,14 @@ extension GalleryViewController: UIDocumentPickerDelegate{
     
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        guard let image = urls.first as? UIImage else {return}
         
+        let url = urls.first
+            if let data = try? Data(contentsOf: url!)
+            {
+                let image = UIImage(data: data)
+                saveImage(image!)
+            }
         
-        saveImage(image)
         controller.dismiss(animated: true)
         
         return
