@@ -82,11 +82,30 @@ class GalleryViewController: UIViewController{
             
         }
         
+        let URLAction = UIAlertAction(title: "API", style: .default) {  [weak self] _ in
+            
+            let APIPicker = UIAlertController(title: "API", message: "Введите ваш API", preferredStyle: .alert)
+            
+            let alertOkAction = UIAlertAction(title: "OK", style: .default)
+            
+            APIPicker.addTextField { (APIMassage) in
+                
+                APIMassage.placeholder = "Введиет ваш API"
+                
+            }
+            
+            APIPicker.addAction(alertOkAction)
+            
+            self?.present(APIPicker, animated: true)
+            
+        }
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         alert.addAction(cameraAction)
         alert.addAction(galleryAction)
         alert.addAction(documentAction)
+        alert.addAction(URLAction)
         alert.addAction(cancelAction)
         
         self.present(alert, animated: true)
@@ -146,12 +165,7 @@ class GalleryViewController: UIViewController{
     
 }
 
-
-//extension GalleryViewController:
-
 extension GalleryViewController: UIDocumentPickerDelegate{
-    
-    
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         
@@ -171,10 +185,7 @@ extension GalleryViewController: UIDocumentPickerDelegate{
         controller.dismiss(animated: true, completion: nil)
     }
     
-    
 }
-
-
 
 extension GalleryViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
@@ -206,8 +217,6 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         photos.count
     }
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
