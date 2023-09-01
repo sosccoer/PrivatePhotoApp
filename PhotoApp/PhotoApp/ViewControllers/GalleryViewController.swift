@@ -92,6 +92,8 @@ class GalleryViewController: UIViewController{
                 
                 APIMassage.placeholder = "Введиет ваш API"
                 
+                
+                
             }
             
             APIPicker.addAction(alertOkAction)
@@ -112,7 +114,16 @@ class GalleryViewController: UIViewController{
         
     }
     
-    func saveImage(_ image: UIImage) {
+    func saveImage(_ image: UIImage){
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.saveImageMain(image)
+        }
+            
+    }
+    
+    func saveImageMain(_ image: UIImage) {
+        
         guard let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         
         let imageData = image.jpegData(compressionQuality: 100)
@@ -125,10 +136,14 @@ class GalleryViewController: UIViewController{
         
         URLManager.addImageName(fileName)
         
-        loadImage(from: fileURL.absoluteURL)
+        DispatchQueue.main.sync {
+            loadImage(from: fileURL.absoluteURL)
+        }
         
         print("file saved \(fileURL.absoluteURL)")
     }
+    
+    
     
     func loadImage(from fileURL: URL) {
         
@@ -136,10 +151,18 @@ class GalleryViewController: UIViewController{
               let imageLoad = UIImage(data: savedData) else { return }
         
         photos.append(imageLoad)
+        
+        
         collectionView.reloadData()
     }
     
     func loadImage() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.loadImageMain()
+        }
+    }
+    
+    func loadImageMain() {
         
         guard let saveDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         
@@ -153,7 +176,11 @@ class GalleryViewController: UIViewController{
             guard let saveData = try? Data(contentsOf: fileURL.absoluteURL), let image = UIImage(data: saveData) else { continue }
             
             photos.append(image)
-            collectionView.reloadData()
+            
+            DispatchQueue.main.sync {
+                collectionView.reloadData()
+            }
+            
         }
         
     }
