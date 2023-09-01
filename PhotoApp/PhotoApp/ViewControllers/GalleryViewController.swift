@@ -24,6 +24,7 @@ class GalleryViewController: UIViewController{
         
         loadImage()
         setupCollectionView()
+        
     }
     
     private func setupCollectionView(){
@@ -48,6 +49,12 @@ class GalleryViewController: UIViewController{
     @IBAction func plusButton(_ sender: Any) {
         
         showAlerts()
+        
+    }
+    
+    @IBAction func moveToTrash(_ sender: Any) {
+        
+        clearImages()
         
     }
     
@@ -91,8 +98,6 @@ class GalleryViewController: UIViewController{
             APIPicker.addTextField { (APIMassage) in
                 
                 APIMassage.placeholder = "Введиет ваш API"
-                
-                
                 
             }
             
@@ -143,8 +148,6 @@ class GalleryViewController: UIViewController{
         print("file saved \(fileURL.absoluteURL)")
     }
     
-    
-    
     func loadImage(from fileURL: URL) {
         
         guard let savedData = try? Data(contentsOf: fileURL),
@@ -186,8 +189,11 @@ class GalleryViewController: UIViewController{
     }
     
     func clearImages() {
+        
         URLManager.deleteAll()
         collectionView.dataSource = nil
+        collectionView.reloadData()
+        
     }
     
 }

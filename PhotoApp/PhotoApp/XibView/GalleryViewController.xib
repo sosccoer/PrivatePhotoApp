@@ -49,11 +49,22 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UeT-ve-rbn">
+                    <rect key="frame" x="172.66666666666666" y="59" width="48" height="34.333333333333343"/>
+                    <color key="tintColor" systemColor="opaqueSeparatorColor"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system"/>
+                    <connections>
+                        <action selector="moveToTrash:" destination="-1" eventType="touchUpInside" id="5lA-TU-mno"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="UeT-ve-rbn" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="KIR-oS-6IP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="I0A-cP-LKa" secondAttribute="trailing" constant="16" id="MdK-rz-uDg"/>
+                <constraint firstItem="UeT-ve-rbn" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="PN0-mG-EeL"/>
                 <constraint firstItem="DJI-fX-Kq1" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="bT2-wZ-1ce"/>
                 <constraint firstItem="I0A-cP-LKa" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="iQl-fv-yj7"/>
                 <constraint firstItem="I0A-cP-LKa" firstAttribute="top" secondItem="s6i-V8-hep" secondAttribute="bottom" constant="16" id="oql-Z4-Y66"/>
@@ -68,6 +79,7 @@
     <resources>
         <image name="arrowshape.turn.up.backward" catalog="system" width="128" height="104"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="trash" catalog="system" width="117" height="128"/>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
