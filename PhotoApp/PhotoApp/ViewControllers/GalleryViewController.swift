@@ -93,24 +93,36 @@ class GalleryViewController: UIViewController{
             
             let APIPicker = UIAlertController(title: "API", message: "Введите ваш API", preferredStyle: .alert)
             
-            let alertOkAction = UIAlertAction(title: "OK", style: .default)
-            
             APIPicker.addTextField { (APIMassage) in
                 
                 APIMassage.placeholder = "Введиет ваш API"
                 
-                let url = URL(string: APIMassage.text ?? "")
+            }
+            
+            let APIAction: UIAlertAction = UIAlertAction(title: "Search", style: .default) { action -> Void in
+                let text = (APIPicker.textFields?.first!)?.text
+                data(api: text ?? "")
                 
-                if let data = try? Data(contentsOf: url!) {
+            }
+            
+            APIPicker.addAction(APIAction)
+            
+            func data(api: String){
+                
+                DispatchQueue.global(qos: .userInitiated).async {
                     
-                    let image = UIImage(data: data)
-                    self?.saveImage(image ?? UIImage())
+                    guard let url = URL(string: api) else {return}
+            
+                    if let data = try? Data(contentsOf: url ) {
+                        
+                        let image = UIImage(data: data)
+                        self?.saveImage(image ?? UIImage())
+                        
+                    }
                     
                 }
                 
             }
-            
-            APIPicker.addAction(alertOkAction)
             
             self?.present(APIPicker, animated: true)
             
@@ -133,7 +145,7 @@ class GalleryViewController: UIViewController{
         DispatchQueue.global(qos: .userInitiated).async {
             self.saveImageMain(image)
         }
-            
+        
     }
     
     func saveImageMain(_ image: UIImage) {
@@ -163,8 +175,6 @@ class GalleryViewController: UIViewController{
               let imageLoad = UIImage(data: savedData) else { return }
         
         photos.append(imageLoad)
-        
-        
         collectionView.reloadData()
     }
     
