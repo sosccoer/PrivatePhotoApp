@@ -99,6 +99,15 @@ class GalleryViewController: UIViewController{
                 
                 APIMassage.placeholder = "Введиет ваш API"
                 
+                let url = URL(string: APIMassage.text ?? "")
+                
+                if let data = try? Data(contentsOf: url!) {
+                    
+                    let image = UIImage(data: data)
+                    self?.saveImage(image ?? UIImage())
+                    
+                }
+                
             }
             
             APIPicker.addAction(alertOkAction)
