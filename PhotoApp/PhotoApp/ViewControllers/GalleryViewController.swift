@@ -159,7 +159,7 @@ class GalleryViewController: UIViewController{
         let fileURL = URL(fileURLWithPath: fileName, relativeTo: saveDirectory).appendingPathExtension("jpg")
         
         try? imageData!.write(to: fileURL)
-        
+         
         URLManager.addImageName(fileName)
         
         DispatchQueue.main.sync {
