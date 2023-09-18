@@ -37,7 +37,7 @@ class SplashViewController: UIViewController {
     }
     
     private func presentLoginController () {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1 ) { [weak self] in
             self?.animationJSON.pause()
             
             let desinationController = LoginViewController()
